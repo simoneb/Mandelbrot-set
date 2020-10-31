@@ -5,7 +5,8 @@ html, body {
 }
 
 body {
-	color: #333;
+	color: #ccc;
+	background-color: #111;
 	margin: 0;
 	padding: 8px;
 	box-sizing: border-box;

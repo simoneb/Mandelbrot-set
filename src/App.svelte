@@ -1,30 +1,25 @@
 <script lang="ts">
-	export let name: string;
+	
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
 	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+		font-size: 2em;
+		text-align: center;
+	}
+	canvas{
+		border: 1px solid white;
+		max-height: 80vh;
 	}
 
 	@media (min-width: 640px) {
-		main {
-			max-width: none;
+		h1 {
+			font-size: 3em;
 		}
 	}
 </style>
+
+<h1>Mandelbrot set generator</h1>
+<div class="main-cotainer">
+	<canvas width="300" height="300" />
+</div>
