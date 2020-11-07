@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+    import { generate } from "./generate.ts";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
 	import Options from "./Options.svelte";
 	let width = 300,
@@ -29,6 +30,8 @@
 	onMount(() => {
 		if (localStorage.lightMode === "true")
 			document.body.classList.add("light");
+		
+		generate();
 	});
 </script>
 

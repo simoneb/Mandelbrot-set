@@ -1,17 +1,17 @@
 {
-  "targets": {
-    "debug": {
-      "binaryFile": "build/untouched.wasm",
-      "textFile": "build/untouched.wat",
-      "sourceMap": true,
-      "debug": true
+    "targets": {
+        "debug": {
+            "binaryFile": "public/build/generate.wasm",
+            "textFile": "public/build/generate.wat",
+            "sourceMap": true,
+            "debug": true
+        },
+        "release": {
+            "binaryFile": "public/build/generate.wasm",
+            "textFile": "public/build/generate.wat",
+            "sourceMap": true,
+            "optimize": true
+        }
     },
-    "release": {
-      "binaryFile": "build/optimized.wasm",
-      "textFile": "build/optimized.wat",
-      "sourceMap": true,
-      "optimize": true
-    }
-  },
-  "options": {}
+    "options": {}
 }
