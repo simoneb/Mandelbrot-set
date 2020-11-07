@@ -5,6 +5,8 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
+import asc from 'assemblyscript/cli/asc';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -60,8 +62,8 @@ export default [{
             }),
             commonjs(),
             typescript({
-                sourceMap: !production,
-                inlineSources: !production
+                sourceMap: true,
+                inlineSources: true
             }),
 
             // In dev mode, call `npm run start` once
@@ -74,7 +76,9 @@ export default [{
 
             // If we're building for production (npm run build
             // instead of npm run dev), minify
-            production && terser()
+            production && terser(),
+
+            sourcemaps()
         ],
         watch: {
             clearScreen: false
@@ -85,7 +89,7 @@ export default [{
         output: {
             sourcemap: true,
             format: 'iife',
-            name: 'app',
+            name: 'worker',
             file: 'public/build/worker.js'
         },
         plugins: [
@@ -94,10 +98,32 @@ export default [{
             }),
             commonjs(),
             typescript({
-                sourceMap: !production,
-                inlineSources: !production
+                sourceMap: true,
+                inlineSources: true
             }),
-            production && terser()
+            production && terser(),
+            {
+                name: 'Compile AS',
+                load(){
+                    this.addWatchFile('assembly/index.ts');
+                },
+                generateBundle() {
+                    asc.ready.then(() => {
+                        asc.main([
+                            'assembly/index.ts',
+                            '--config', 'asconfig.json',
+                            '--target', production ? 'release' : 'debug',
+                            '--sourceMap', 'build/generate.wasm.map'
+                        ], {
+                            stdout: process.stdout,
+                            stderr: process.stderr
+                        })
+                    })
+                }
+            },
+            sourcemaps({
+                include: ['build/generate.wasm']
+            })
         ]
     }
 ]

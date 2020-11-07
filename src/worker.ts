@@ -5,15 +5,26 @@ interface command {
     data: any
 }
 
+let moduleExports;
+
 const myself: Worker = self as any;
-myself.onmessage = (event) => {
+
+myself.onmessage = async (event) => {
+
     const { action, data } = event.data as command;
+
     switch (action) {
+
         case "loadWasm":
-            loader.instantiate(data);
-            break;
+            const module = await loader.instantiate(data);
+            moduleExports = module.exports;
+            console.log(moduleExports);
+            myself.postMessage(null);
+        break;
+
         case "plus1":
-            myself.postMessage(data+1);
-            break;
+            const num: number = moduleExports.plus1(data);
+            myself.postMessage(num);
+        break;
     }
 }
