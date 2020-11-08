@@ -22,9 +22,14 @@ myself.onmessage = async (event) => {
             myself.postMessage(null);
         break;
 
-        case "plus1":
-            const num: number = moduleExports.plus1(data);
+        case "generate":
+            const num: number = moduleExports.generate(data);
             myself.postMessage(num);
+        break;
+
+        default:
+            throw new Error("Unknown action: " + action);
+            myself.postMessage(null);
         break;
     }
 }

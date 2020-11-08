@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
+import fs from 'fs';
 import asc from 'assemblyscript/cli/asc';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 
@@ -105,7 +106,9 @@ export default [{
             {
                 name: 'Compile AS',
                 load(){
-                    this.addWatchFile('assembly/index.ts');
+                    fs.readdirSync('assembly')
+                        .filter(fileName => fileName.endsWith('.ts'))
+                        .forEach(fileName => this.addWatchFile('assembly/' + fileName));
                 },
                 generateBundle() {
                     asc.ready.then(() => {
