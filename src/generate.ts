@@ -16,7 +16,7 @@ class Thread {
             this.worker.postMessage({ action, data });
         });
     }
-    
+
     private static async getWasm() {
         if (typeof Thread.wasm === "undefined") {
             const response = await fetch("build/generate.wasm");
@@ -26,8 +26,8 @@ class Thread {
     }
 }
 
-export async function generate() {
+export async function generate(width: number, height: number, zoom: number, posX: number, posY: number) {
     const thread = new Thread();
     await thread.sendWasm();
-    console.log(await thread.command("plus1", 100));
+    return await thread.command("generate", [width, height, zoom, posX, posY]);
 }

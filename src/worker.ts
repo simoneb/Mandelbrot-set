@@ -23,8 +23,12 @@ myself.onmessage = async (event) => {
         break;
 
         case "generate":
-            const num: number = moduleExports.generate(data);
-            myself.postMessage(num);
+            const [width, height] = data as number[];
+            const pointer: number = moduleExports.generate(...data);
+            const imageDataArrayView: Uint8ClampedArray = moduleExports.__getUint8ClampedArrayView(pointer);
+            const imageDataArray = new Uint8ClampedArray(imageDataArrayView);
+            moduleExports.__release(pointer);
+            myself.postMessage(imageDataArray);
         break;
 
         default:

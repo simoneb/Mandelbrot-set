@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-    import { generate } from "./generate.ts";
+	import { generate } from "./generate.ts";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
 	import Options from "./Options.svelte";
 	let width = 300,
@@ -8,6 +8,7 @@
 		posX = 0,
 		posY = 0,
 		zoom = 100;
+	let canvas;
 
 	export let version: string;
 
@@ -27,11 +28,13 @@
 		localStorage.lightMode = !document.body.classList.contains("light");
 		if (localStorage.lightMode) document.body.classList.toggle("light");
 	}
-	onMount(() => {
+	onMount(async () => {
 		if (localStorage.lightMode === "true")
 			document.body.classList.add("light");
-		
-		generate();
+
+		const imageDataArray = await generate(300, 300, 0.5, -0.5, 0);
+		const imageData = new ImageData(imageDataArray, width);
+		canvas.getContext("2d").putImageData(imageData, 0, 0);
 	});
 </script>
 
@@ -92,7 +95,7 @@
 </div>
 <div class="main-container">
 	<div class="container">
-		<canvas {width} {height} />
+		<canvas {width} {height} bind:this={canvas} />
 		<input
 			type="range"
 			min="-1"
