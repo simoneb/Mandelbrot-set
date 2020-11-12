@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { generate } from "./generate.ts";
+	import { generate } from "./generate";
+	import { Point } from "./point";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
 	import Options from "./Options.svelte";
+
 	let width = 300,
 		height = 300,
-		posX = 0,
-		posY = 0,
-		zoom = 100;
-	let canvas;
+		offset = new Point(0, 0),
+		zoom = 50,
+		zoomFactor: number;
+	$: zoomFactor = zoom / 100;
+	let canvas: HTMLCanvasElement;
+	let ctx: CanvasRenderingContext2D;
 
 	export let version: string;
 
@@ -28,13 +32,49 @@
 		localStorage.lightMode = !document.body.classList.contains("light");
 		if (localStorage.lightMode) document.body.classList.toggle("light");
 	}
+
+	let mousedown = false;
+	let mouseStartingPos: Point;
+	let image = new Image();
+	let oldOffset: Point;
+	function canvasDragBegin(event: MouseEvent) {
+		mousedown = true;
+		mouseStartingPos = new Point(event.offsetX, event.offsetY);
+		image.src = canvas.toDataURL();
+		oldOffset = offset.copy();
+	}
+	function canvasDragMove(event: MouseEvent) {
+		if (mousedown) {
+			const dragOffset = new Point(
+				event.offsetX - mouseStartingPos.x,
+				event.offsetY - mouseStartingPos.y
+			);
+			ctx.clearRect(0, 0, width, height);
+			ctx.drawImage(image, dragOffset.x, dragOffset.y);
+			
+			offset.x = oldOffset.x - (dragOffset.x / width) / zoomFactor;
+			offset.y = oldOffset.y + (dragOffset.y / height) / zoomFactor;
+		}
+	}
+	async function canvasDragEnd(event: MouseEvent) {
+		canvasDragMove(event);
+		mousedown = false;
+		await drawMandelbrot();
+	}
+
+	async function drawMandelbrot() {
+		const imageDataArray = await generate(width, height, zoomFactor, offset);
+		const imageData = new ImageData(imageDataArray, width);
+		ctx.putImageData(imageData, 0, 0);
+	}
+
 	onMount(async () => {
 		if (localStorage.lightMode === "true")
 			document.body.classList.add("light");
 
-		const imageDataArray = await generate(300, 300, 0.5, -0.5, 0);
-		const imageData = new ImageData(imageDataArray, width);
-		canvas.getContext("2d").putImageData(imageData, 0, 0);
+		ctx = canvas.getContext("2d");
+
+		await drawMandelbrot();
 	});
 </script>
 
@@ -95,7 +135,13 @@
 </div>
 <div class="main-container">
 	<div class="container">
-		<canvas {width} {height} bind:this={canvas} />
+		<canvas
+			{width}
+			{height}
+			bind:this={canvas}
+			on:mousedown={canvasDragBegin}
+			on:mousemove={canvasDragMove}
+			on:mouseup={canvasDragEnd} />
 		<input
 			type="range"
 			min="-1"
@@ -110,8 +156,7 @@
 	<Options
 		bind:width
 		bind:height
-		bind:posX
-		bind:posY
+		bind:offset
 		bind:zoom
-		on:update={() => alert(1)} />
+		on:update={drawMandelbrot} />
 </div>

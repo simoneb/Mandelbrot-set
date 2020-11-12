@@ -12,14 +12,14 @@ class Range {
     }
 }
 
-export function generate(width: u32, height: u32, zoom: f64, posX: f64, posY: f64): Uint8ClampedArray {
+export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offsetY: f64): Uint8ClampedArray {
     const imageDataArray = new Uint8ClampedArray(width * height * 4);
 
-    const horizontalRange = new Range(-0.5 / zoom + posX, 0.5 / zoom + posX);
-    const verticalRange = new Range(-0.5 / zoom + posY, 0.5 / zoom + posY);
+    const horizontalRange = new Range(-0.5 / zoom + offsetX, 0.5 / zoom + offsetX);
+    const verticalRange = new Range(-0.5 / zoom + offsetY, 0.5 / zoom + offsetY);
 
     for (let i: u32 = 0; i < height; i++) {
-        let y: f64 = verticalRange.min + i * verticalRange.difference() / height;
+        let y: f64 = verticalRange.min + (height - i) * verticalRange.difference() / height;
 
         for (let j: u32 = 0; j < width; j++) {
             let x: f64 = horizontalRange.min + j * horizontalRange.difference() / width;

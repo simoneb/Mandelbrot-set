@@ -1,3 +1,5 @@
+import type { Point } from "./point";
+
 class Thread {
     private static wasm: ArrayBuffer;
     private worker: Worker;
@@ -24,10 +26,16 @@ class Thread {
         }
         return Thread.wasm;
     }
+
+    terminate() {
+        this.worker.terminate();
+    }
 }
 
-export async function generate(width: number, height: number, zoom: number, posX: number, posY: number) {
+export async function generate(width: number, height: number, zoom: number, offset: Point) {
     const thread = new Thread();
     await thread.sendWasm();
-    return await thread.command("generate", [width, height, zoom, posX, posY]);
+    const imageDataArray = await thread.command("generate", [width, height, zoom, offset.x, offset.y]);
+    thread.terminate();
+    return imageDataArray as Uint8ClampedArray;
 }
