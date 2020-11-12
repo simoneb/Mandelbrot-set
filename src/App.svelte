@@ -17,15 +17,26 @@
 	export let version: string;
 
 	let sliderValue = 0;
-	let zoomValue: number;
+	let oldZoom: number;
 	function sliderBegin() {
-		zoomValue = zoom / 100;
+		oldZoom = zoom;
+		image.src = canvas.toDataURL();
 	}
 	function sliderMove() {
-		zoom = Number((Math.pow(2, sliderValue) * zoomValue * 100).toFixed(1));
+		const zoomDifference = Math.pow(2, sliderValue);
+		zoom = Number((zoomDifference * oldZoom).toFixed(1));
+		ctx.clearRect(0, 0, width, height);
+		ctx.drawImage(
+			image,
+			(width - width * zoomDifference) / 2,
+			(height - height * zoomDifference) / 2,
+			width * zoomDifference,
+			height * zoomDifference
+		);
 	}
-	function sliderEnd() {
+	async function sliderEnd() {
 		sliderValue = 0;
+		await drawMandelbrot();
 	}
 
 	function toggleLightMode() {
@@ -51,9 +62,9 @@
 			);
 			ctx.clearRect(0, 0, width, height);
 			ctx.drawImage(image, dragOffset.x, dragOffset.y);
-			
-			offset.x = oldOffset.x - (dragOffset.x / width) / zoomFactor;
-			offset.y = oldOffset.y + (dragOffset.y / height) / zoomFactor;
+
+			offset.x = oldOffset.x - dragOffset.x / width / zoomFactor;
+			offset.y = oldOffset.y + dragOffset.y / height / zoomFactor;
 		}
 	}
 	async function canvasDragEnd(event: MouseEvent) {
@@ -63,7 +74,12 @@
 	}
 
 	async function drawMandelbrot() {
-		const imageDataArray = await generate(width, height, zoomFactor, offset);
+		const imageDataArray = await generate(
+			width,
+			height,
+			zoomFactor,
+			offset
+		);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
 	}
