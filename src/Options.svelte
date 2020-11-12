@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { Point } from "./point";
     import { createEventDispatcher } from "svelte";
 
     let dispatch = createEventDispatcher();
@@ -6,11 +7,7 @@
         dispatch("update");
     }
 
-    export let width: number,
-        height: number,
-        posX: number,
-        posY: number,
-        zoom: number;
+    export let width: number, height: number, offset: Point, zoom: number;
 </script>
 
 <style>
@@ -27,7 +24,7 @@
     .container div:first-of-type h2 {
         margin-top: 0;
     }
-    button{
+    button {
         margin-top: 1em;
     }
 
@@ -51,8 +48,8 @@
 <div class="container">
     <div>
         <h2>Center position</h2>
-        (<input type="number" bind:value={posX} />,
-        <input type="number" bind:value={posY} />)
+        (<input type="number" bind:value={offset.x} />,
+        <input type="number" bind:value={offset.y} />)
     </div>
     <div>
         <h2>Zoom</h2>

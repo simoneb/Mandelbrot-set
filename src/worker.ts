@@ -22,9 +22,18 @@ myself.onmessage = async (event) => {
             myself.postMessage(null);
         break;
 
-        case "plus1":
-            const num: number = moduleExports.plus1(data);
-            myself.postMessage(num);
+        case "generate":
+            const [width, height] = data as number[];
+            const pointer: number = moduleExports.generate(...data);
+            const imageDataArrayView: Uint8ClampedArray = moduleExports.__getUint8ClampedArrayView(pointer);
+            const imageDataArray = new Uint8ClampedArray(imageDataArrayView);
+            moduleExports.__release(pointer);
+            myself.postMessage(imageDataArray);
+        break;
+
+        default:
+            throw new Error("Unknown action: " + action);
+            myself.postMessage(null);
         break;
     }
 }
