@@ -4,6 +4,7 @@
 	import { Point } from "./point";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
 	import Options from "./Options.svelte";
+	import Spinner from "./Spinner.svelte";
 
 	let width = 300,
 		height = 300,
@@ -13,6 +14,7 @@
 	$: zoomFactor = zoom / 100;
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
+	let calculating = false;
 
 	export let version: string;
 
@@ -74,6 +76,7 @@
 	}
 
 	async function drawMandelbrot() {
+		calculating = true;
 		const imageDataArray = await generate(
 			width,
 			height,
@@ -82,6 +85,7 @@
 		);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
+		calculating = false;
 	}
 
 	onMount(async () => {
@@ -130,6 +134,20 @@
 		right: 0.5em;
 		cursor: pointer;
 	}
+	.overlay {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.3);
+	}
+	.spinner-container {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 
 	@media (min-width: 640px) {
 		h1 {
@@ -176,3 +194,10 @@
 		bind:zoom
 		on:update={drawMandelbrot} />
 </div>
+{#if calculating}
+	<div class="overlay">
+		<div class="spinner-container">
+			<Spinner lightMode={localStorage.lightMode === 'true'} />
+		</div>
+	</div>
+{/if}
