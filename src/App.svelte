@@ -50,17 +50,17 @@
 	let mouseStartingPos: Point;
 	let image = new Image();
 	let oldOffset: Point;
-	function canvasDragBegin(event: MouseEvent) {
+	function canvasDragBegin(eventOffset: Point) {
 		mousedown = true;
-		mouseStartingPos = new Point(event.offsetX, event.offsetY);
+		mouseStartingPos = eventOffset;
 		image.src = canvas.toDataURL();
 		oldOffset = offset.copy();
 	}
-	function canvasDragMove(event: MouseEvent) {
+	function canvasDragMove(eventOffset: Point) {
 		if (mousedown) {
 			const dragOffset = new Point(
-				event.offsetX - mouseStartingPos.x,
-				event.offsetY - mouseStartingPos.y
+				eventOffset.x - mouseStartingPos.x,
+				eventOffset.y - mouseStartingPos.y
 			);
 			ctx.clearRect(0, 0, width, height);
 			ctx.drawImage(image, dragOffset.x, dragOffset.y);
@@ -69,10 +69,27 @@
 			offset.y = oldOffset.y + dragOffset.y / height / zoomFactor;
 		}
 	}
-	async function canvasDragEnd(event: MouseEvent) {
-		canvasDragMove(event);
+	async function canvasDragEnd(eventOffset?: Point) {
+		if (eventOffset) canvasDragMove(eventOffset);
 		mousedown = false;
 		await drawMandelbrot();
+	}
+
+	function canvasSwipeBegin(event: TouchEvent) {
+		event.preventDefault();
+		canvasDragBegin(
+			new Point(event.touches[0].clientX, event.touches[0].clientY)
+		);
+	}
+	function canvasSwipeMove(event: TouchEvent) {
+		event.preventDefault();
+		canvasDragMove(
+			new Point(event.touches[0].clientX, event.touches[0].clientY)
+		);
+	}
+	async function canvasSwipeEnd(event: TouchEvent) {
+		event.preventDefault();
+		await canvasDragEnd();
 	}
 
 	async function drawMandelbrot() {
@@ -109,7 +126,8 @@
 		max-width: 80vw;
 		cursor: grab;
 	}
-	canvas:active, input[type="range"]:active {
+	canvas:active,
+	input[type="range"]:active {
 		cursor: grabbing;
 	}
 	.main-container {
@@ -179,9 +197,12 @@
 			{width}
 			{height}
 			bind:this={canvas}
-			on:mousedown={canvasDragBegin}
-			on:mousemove={canvasDragMove}
-			on:mouseup={canvasDragEnd} />
+			on:mousedown={(event) => canvasDragBegin(new Point(event.offsetX, event.offsetY))}
+			on:mousemove={(event) => canvasDragMove(new Point(event.x, event.y))}
+			on:mouseup={(event) => canvasDragEnd(new Point(event.x, event.y))}
+			on:touchstart={canvasSwipeBegin}
+			on:touchmove={canvasSwipeMove}
+			on:touchend={canvasSwipeEnd} />
 		<input
 			type="range"
 			min="-1"
