@@ -198,8 +198,8 @@
 			{height}
 			bind:this={canvas}
 			on:mousedown={(event) => canvasDragBegin(new Point(event.offsetX, event.offsetY))}
-			on:mousemove={(event) => canvasDragMove(new Point(event.x, event.y))}
-			on:mouseup={(event) => canvasDragEnd(new Point(event.x, event.y))}
+			on:mousemove={(event) => canvasDragMove(new Point(event.offsetX, event.offsetY))}
+			on:mouseup={(event) => canvasDragEnd(new Point(event.offsetX, event.offsetY))}
 			on:touchstart={canvasSwipeBegin}
 			on:touchmove={canvasSwipeMove}
 			on:touchend={canvasSwipeEnd} />
