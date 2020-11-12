@@ -107,6 +107,10 @@
 		border: 1px solid #ccc;
 		max-height: 80vh;
 		max-width: 80vw;
+		cursor: grab;
+	}
+	canvas:active, input[type="range"]:active {
+		cursor: grabbing;
 	}
 	.main-container {
 		display: flex;
@@ -121,6 +125,7 @@
 	}
 	input[type="range"] {
 		padding: 0;
+		cursor: grab;
 	}
 	.version {
 		position: absolute;
@@ -141,6 +146,7 @@
 		top: 0;
 		left: 0;
 		background-color: rgba(0, 0, 0, 0.3);
+		cursor: wait;
 	}
 	.spinner-container {
 		position: fixed;
