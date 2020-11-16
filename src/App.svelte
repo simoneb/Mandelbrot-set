@@ -109,6 +109,8 @@
 		if (localStorage.lightMode === "true")
 			document.body.classList.add("light");
 
+		setTimeout(() => document.body.classList.add("loaded"), 500);
+
 		ctx = canvas.getContext("2d");
 
 		await drawMandelbrot();
