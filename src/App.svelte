@@ -4,6 +4,7 @@
 	import { Point } from "./point";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
 	import Options from "./Options.svelte";
+	import Spinner from "./Spinner.svelte";
 
 	let width = 300,
 		height = 300,
@@ -13,6 +14,7 @@
 	$: zoomFactor = zoom / 100;
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
+	let calculating = false;
 
 	export let version: string;
 
@@ -48,17 +50,17 @@
 	let mouseStartingPos: Point;
 	let image = new Image();
 	let oldOffset: Point;
-	function canvasDragBegin(event: MouseEvent) {
+	function canvasDragBegin(eventOffset: Point) {
 		mousedown = true;
-		mouseStartingPos = new Point(event.offsetX, event.offsetY);
+		mouseStartingPos = eventOffset;
 		image.src = canvas.toDataURL();
 		oldOffset = offset.copy();
 	}
-	function canvasDragMove(event: MouseEvent) {
+	function canvasDragMove(eventOffset: Point) {
 		if (mousedown) {
 			const dragOffset = new Point(
-				event.offsetX - mouseStartingPos.x,
-				event.offsetY - mouseStartingPos.y
+				eventOffset.x - mouseStartingPos.x,
+				eventOffset.y - mouseStartingPos.y
 			);
 			ctx.clearRect(0, 0, width, height);
 			ctx.drawImage(image, dragOffset.x, dragOffset.y);
@@ -67,13 +69,31 @@
 			offset.y = oldOffset.y + dragOffset.y / height / zoomFactor;
 		}
 	}
-	async function canvasDragEnd(event: MouseEvent) {
-		canvasDragMove(event);
+	async function canvasDragEnd(eventOffset?: Point) {
+		if (eventOffset) canvasDragMove(eventOffset);
 		mousedown = false;
 		await drawMandelbrot();
 	}
 
+	function canvasSwipeBegin(event: TouchEvent) {
+		event.preventDefault();
+		canvasDragBegin(
+			new Point(event.touches[0].clientX, event.touches[0].clientY)
+		);
+	}
+	function canvasSwipeMove(event: TouchEvent) {
+		event.preventDefault();
+		canvasDragMove(
+			new Point(event.touches[0].clientX, event.touches[0].clientY)
+		);
+	}
+	async function canvasSwipeEnd(event: TouchEvent) {
+		event.preventDefault();
+		await canvasDragEnd();
+	}
+
 	async function drawMandelbrot() {
+		calculating = true;
 		const imageDataArray = await generate(
 			width,
 			height,
@@ -82,11 +102,14 @@
 		);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
+		calculating = false;
 	}
 
 	onMount(async () => {
 		if (localStorage.lightMode === "true")
 			document.body.classList.add("light");
+
+		setTimeout(() => document.body.classList.add("loaded"), 500);
 
 		ctx = canvas.getContext("2d");
 
@@ -103,6 +126,11 @@
 		border: 1px solid #ccc;
 		max-height: 80vh;
 		max-width: 80vw;
+		cursor: grab;
+	}
+	canvas:active,
+	input[type="range"]:active {
+		cursor: grabbing;
 	}
 	.main-container {
 		display: flex;
@@ -117,6 +145,7 @@
 	}
 	input[type="range"] {
 		padding: 0;
+		cursor: grab;
 	}
 	.version {
 		position: absolute;
@@ -129,6 +158,21 @@
 		top: 0.5em;
 		right: 0.5em;
 		cursor: pointer;
+	}
+	.overlay {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.3);
+		cursor: wait;
+	}
+	.spinner-container {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 
 	@media (min-width: 640px) {
@@ -155,9 +199,12 @@
 			{width}
 			{height}
 			bind:this={canvas}
-			on:mousedown={canvasDragBegin}
-			on:mousemove={canvasDragMove}
-			on:mouseup={canvasDragEnd} />
+			on:mousedown={(event) => canvasDragBegin(new Point(event.offsetX, event.offsetY))}
+			on:mousemove={(event) => canvasDragMove(new Point(event.offsetX, event.offsetY))}
+			on:mouseup={(event) => canvasDragEnd(new Point(event.offsetX, event.offsetY))}
+			on:touchstart={canvasSwipeBegin}
+			on:touchmove={canvasSwipeMove}
+			on:touchend={canvasSwipeEnd} />
 		<input
 			type="range"
 			min="-1"
@@ -176,3 +223,10 @@
 		bind:zoom
 		on:update={drawMandelbrot} />
 </div>
+{#if calculating}
+	<div class="overlay">
+		<div class="spinner-container">
+			<Spinner lightMode={localStorage.lightMode === 'true'} />
+		</div>
+	</div>
+{/if}
