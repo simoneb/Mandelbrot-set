@@ -69,14 +69,16 @@ input:disabled {
     color: #ccc;
 }
 
-button {
+button,
+input[type="submit"] {
     color: inherit;
     background-color: #222;
     outline: none;
     cursor: pointer;
 }
 
-body.light button {
+body.light button,
+body.light input[type="submit"] {
     color: #333;
     background-color: #f4f4f4;
     outline: none;

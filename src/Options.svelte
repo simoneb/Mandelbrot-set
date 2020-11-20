@@ -3,7 +3,8 @@
     import { createEventDispatcher } from "svelte";
 
     let dispatch = createEventDispatcher();
-    function update() {
+    function update(event: Event) {
+        event.preventDefault();
         dispatch("update");
     }
 
@@ -15,7 +16,7 @@
         font-size: 1.3em;
         margin-bottom: 0.3em;
     }
-    .container {
+    form {
         text-align: center;
     }
     input {
@@ -24,7 +25,7 @@
     .container div:first-of-type h2 {
         margin-top: 0;
     }
-    button {
+    input[type="submit"] {
         margin-top: 1em;
     }
 
@@ -45,11 +46,11 @@
     }
 </style>
 
-<div class="container">
+<form on:submit={update}>
     <div>
         <h2>Center position</h2>
-        (<input type="number" bind:value={offset.x} />,
-        <input type="number" bind:value={offset.y} />)
+        (<input type="number" step="any" bind:value={offset.x} />,
+        <input type="number" step="any" bind:value={offset.y} />)
     </div>
     <div>
         <h2>Zoom</h2>
@@ -61,5 +62,5 @@
         &times;
         <input type="number" bind:value={height} />
     </div>
-    <button on:click={update}>Update</button>
-</div>
+    <input type="submit" value="Update" />
+</form>
