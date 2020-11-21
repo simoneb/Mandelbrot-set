@@ -11,7 +11,34 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      - name: Set the version number in main.ts
+        run: sed -i '/version:/s/""/"${{github.event.release.tag_name}}"/' src/main.ts
+        # sed looks for version: and then substitutes "" for the release tag name
+      
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+          
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
+      
+      - name: Setup GPG signing key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{secrets.GPG_PRIVATE_KEY}}
+          passphrase: ${{secrets.PASSPHRASE}}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+          
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GIT_CONFIG_NAME: ${{github.repository_owner}}
+          GIT_CONFIG_EMAIL: ${{github.event.repository.owner.id}}+${{github.repository_owner}}@users.noreply.github.com
+          BRANCH: gh-pages
+          FOLDER: build
+          CLEAN: true
