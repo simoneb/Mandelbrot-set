@@ -18,11 +18,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 10.x
           
       - name: Install dependencies and build
         run: |
-          npm i
+          npm ci
           npm run build
       
       - name: Setup GPG signing key
