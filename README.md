@@ -1,4 +1,6 @@
 # Mandelbrot set generator
+![a Mandelbrot set and some options](screenshots/screenshot.png?raw=true)
+
 ## Fetures
 * Draggable canvas
 * Zoom slider
