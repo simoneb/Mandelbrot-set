@@ -22,7 +22,7 @@ jobs:
           
       - name: Install dependencies and build
         run: |
-          npm ci
+          npm i
           npm run build
       
       - name: Setup GPG signing key
