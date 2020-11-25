@@ -1,4 +1,7 @@
 import { Complex } from './complex';
+import { hue2rgb } from './hue2rgb';
+
+export declare function print(num: f64): void;
 
 class Range {
     min: f64;
@@ -26,15 +29,17 @@ export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offse
 
             const complex = new Complex(x, y);
             const index: u32 = (i * width + j) * 4;
-            
-            if (complex.goesToInfinity() === -1) {
+
+            const iterations = complex.goesToInfinity();
+            if (iterations === -1) {
                 imageDataArray[index] = 0;
                 imageDataArray[index + 1] = 0;
                 imageDataArray[index + 2] = 0;
             } else {
-                imageDataArray[index] = 255;
-                imageDataArray[index + 1] = 255;
-                imageDataArray[index + 2] = 255;
+                const rgb = hue2rgb(Math.fround(iterations as f64 / 100 * 300));
+                imageDataArray[index] = rgb[0];
+                imageDataArray[index + 1] = rgb[1];
+                imageDataArray[index + 2] = rgb[2];
             }
             imageDataArray[index + 3] = 255;
             // a pixel in a canvas has 4 bytes for Red, Green, Blue and Alpha

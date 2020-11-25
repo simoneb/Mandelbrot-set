@@ -16,7 +16,12 @@ myself.onmessage = async (event) => {
     switch (action) {
 
         case "loadWasm":
-            const module = await loader.instantiate(data);
+            const module = await loader.instantiate(data, {
+                env: {},
+                index: {
+                    print: console.log
+                }
+            });
             moduleExports = module.exports;
             console.log(moduleExports);
             myself.postMessage(null);
