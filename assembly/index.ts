@@ -15,7 +15,7 @@ class Range {
     }
 }
 
-export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offsetY: f64): Uint8ClampedArray {
+export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offsetY: f64, color: boolean): Uint8ClampedArray {
     const imageDataArray = new Uint8ClampedArray(width * height * 4);
 
     const horizontalRange = new Range(-0.5 / zoom + offsetX, 0.5 / zoom + offsetX);
@@ -36,7 +36,11 @@ export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offse
                 imageDataArray[index + 1] = 0;
                 imageDataArray[index + 2] = 0;
             } else {
-                const rgb = hue2rgb(Math.fround(iterations as f64 / 100 * 300));
+                let rgb: u8[];
+                if (color)
+                    rgb = hue2rgb(Math.fround(iterations as f64 / 100 * 300));
+                else
+                    rgb = [255, 255, 255];
                 imageDataArray[index] = rgb[0];
                 imageDataArray[index + 1] = rgb[1];
                 imageDataArray[index + 2] = rgb[2];
