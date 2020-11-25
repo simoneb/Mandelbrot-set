@@ -32,10 +32,10 @@ class Thread {
     }
 }
 
-export async function generate(width: number, height: number, zoom: number, offset: Point) {
+export async function generate(width: number, height: number, zoom: number, offset: Point, color: boolean) {
     const thread = new Thread();
     await thread.sendWasm();
-    const imageDataArray = await thread.command("generate", [width, height, zoom, offset.x, offset.y]);
+    const imageDataArray = await thread.command("generate", [width, height, zoom, offset.x, offset.y, color]);
     thread.terminate();
     return imageDataArray as Uint8ClampedArray;
 }

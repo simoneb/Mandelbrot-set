@@ -8,7 +8,14 @@
         dispatch("update");
     }
 
-    export let width: number, height: number, offset: Point, zoom: number;
+    export let width: number,
+        height: number,
+        offset: Point,
+        zoom: number,
+        color: boolean;
+    let colorString = "true";
+    $: color = colorString === "true";
+    // svelte won't let me have booleans as attributes
 </script>
 
 <style>
@@ -19,7 +26,7 @@
     form {
         text-align: center;
     }
-    input {
+    input[type="number"] {
         width: 5em;
     }
     .container div:first-of-type h2 {
@@ -27,6 +34,9 @@
     }
     input[type="submit"] {
         margin-top: 1em;
+    }
+    .color-container label {
+        text-align: left;
     }
 
     /* Remove arrow button from number input */
@@ -61,6 +71,13 @@
         <input type="number" bind:value={width} />
         &times;
         <input type="number" bind:value={height} />
+    </div>
+    <div class="color-container">
+        <h2>Color</h2>
+        <label><input type="radio" bind:group={colorString} value="true" />
+            Color</label>
+        <label><input type="radio" bind:group={colorString} value="false" />
+            Black & white</label>
     </div>
     <input type="submit" value="Update" />
 </form>

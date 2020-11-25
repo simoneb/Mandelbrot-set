@@ -10,7 +10,8 @@
 		height = 300,
 		offset = new Point(0, 0),
 		zoom = 50,
-		zoomFactor: number;
+		zoomFactor: number,
+		color: boolean;
 	$: zoomFactor = zoom / 100;
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
@@ -98,7 +99,8 @@
 			width,
 			height,
 			zoomFactor,
-			offset
+			offset,
+			color
 		);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
@@ -221,6 +223,7 @@
 		bind:height
 		bind:offset
 		bind:zoom
+		bind:color
 		on:update={drawMandelbrot} />
 </div>
 {#if calculating}
