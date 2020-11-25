@@ -20,6 +20,7 @@
     "@tsconfig/svelte": "^1.0.0",
     "assemblyscript": "^0.17.0",
     "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.0.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-svelte": "^7.0.0",
