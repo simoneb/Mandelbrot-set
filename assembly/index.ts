@@ -15,20 +15,33 @@ class Range {
     }
 }
 
-export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offsetY: f64, color: boolean): Uint8ClampedArray {
-    const imageDataArray = new Uint8ClampedArray(width * height * 4);
+export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offsetY: f64, color: boolean, numberOfThreads: u8, threadNumber: u8): Uint8ClampedArray {
 
     const horizontalRange = new Range(-0.5 / zoom + offsetX, 0.5 / zoom + offsetX);
     const verticalRange = new Range(-0.5 / zoom + offsetY, 0.5 / zoom + offsetY);
 
-    for (let i: u32 = 0; i < height; i++) {
+    let minHeight: u32 = Math.ceil(height / numberOfThreads) * threadNumber as u32;
+    let maxHeight: u32;
+    if (threadNumber + 1 < numberOfThreads) {
+        // not the last thread
+        maxHeight = Math.ceil(height / numberOfThreads) * (threadNumber + 1) as u32;
+    } else {
+        //the last thread
+        maxHeight = height;
+    }
+
+    let heightDifference = maxHeight - minHeight;
+
+    const imageDataArray = new Uint8ClampedArray(width * heightDifference * 4);
+
+    for (let i: u32 = minHeight; i < maxHeight; i++) {
         let y: f64 = verticalRange.min + (height - i) * verticalRange.difference() / height;
 
         for (let j: u32 = 0; j < width; j++) {
             let x: f64 = horizontalRange.min + j * horizontalRange.difference() / width;
 
             const complex = new Complex(x, y);
-            const index: u32 = (i * width + j) * 4;
+            const index: u32 = ((i - minHeight) * width + j) * 4;
 
             const iterations = complex.goesToInfinity();
             if (iterations === -1) {
