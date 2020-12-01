@@ -35,10 +35,10 @@ export class Complex {
         this.add(c);
     }
 
-    goesToInfinity(): i8 {
+    goesToInfinity(numberOfIterations: i32): i32 {
         const temp = this.copy();
 
-        for (let i: u8 = 0; i < 100; i++) {
+        for (let i: i32 = 0; i < numberOfIterations; i++) {
 
             temp.mandelbrotIteration(this);
 

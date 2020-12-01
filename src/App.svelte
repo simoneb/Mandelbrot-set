@@ -12,6 +12,7 @@
 		zoom = 50,
 		zoomFactor: number,
 		color: boolean,
+		numberOfIterations = 100,
 		numberOfThreads = navigator.hardwareConcurrency || 1;
 	$: zoomFactor = zoom / 100;
 	let canvas: HTMLCanvasElement;
@@ -102,6 +103,7 @@
 			zoomFactor,
 			offset,
 			color,
+			numberOfIterations,
 			numberOfThreads
 		);
 		const imageData = new ImageData(imageDataArray, width);
@@ -227,6 +229,7 @@
 		bind:zoom
 		bind:color
 		bind:numberOfThreads
+		bind:numberOfIterations
 		on:update={drawMandelbrot} />
 </div>
 {#if calculating}

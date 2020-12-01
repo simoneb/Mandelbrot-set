@@ -15,7 +15,17 @@ class Range {
     }
 }
 
-export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offsetY: f64, color: boolean, numberOfThreads: u8, threadNumber: u8): Uint8ClampedArray {
+export function generate(
+    width: u32,
+    height: u32,
+    zoom: f64,
+    offsetX: f64,
+    offsetY: f64,
+    color: boolean,
+    numberOfIterations: i32,
+    numberOfThreads: u8,
+    threadNumber: u8
+): Uint8ClampedArray {
 
     const horizontalRange = new Range(-0.5 / zoom + offsetX, 0.5 / zoom + offsetX);
     const verticalRange = new Range(-0.5 / zoom + offsetY, 0.5 / zoom + offsetY);
@@ -43,7 +53,7 @@ export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offse
             const complex = new Complex(x, y);
             const index: u32 = ((i - minHeight) * width + j) * 4;
 
-            const iterations = complex.goesToInfinity();
+            const iterations = complex.goesToInfinity(numberOfIterations);
             if (iterations === -1) {
                 unchecked(imageDataArray[index] = 0);
                 unchecked(imageDataArray[index + 1] = 0);
@@ -51,7 +61,7 @@ export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offse
             } else {
                 let rgb: u8[];
                 if (color)
-                    rgb = hue2rgb(Math.fround(iterations as f64 / 100 * 300));
+                    rgb = hue2rgb(Math.fround(iterations as f64 / numberOfIterations * 300));
                 else
                     rgb = [255, 255, 255];
                 unchecked(imageDataArray[index] = rgb[0]);
