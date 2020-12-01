@@ -51,13 +51,14 @@ export async function generate(
     zoom: number,
     offset: Point,
     color: boolean,
+    numberOfIterations: number,
     numberOfThreads: number
 ) {
     await Thread.changeNumberOfThreads(numberOfThreads);
     let promises = [];
     for (let i = 0; i < Thread.all.length; i++) {
         promises.push(Thread.all[i].command("generate", [
-            width, height, zoom, offset.x, offset.y, color, numberOfThreads, i
+            width, height, zoom, offset.x, offset.y, color, numberOfIterations, numberOfThreads, i
         ]));
     }
     const imageDataArrays: Uint8ClampedArray[] = await Promise.all(promises);

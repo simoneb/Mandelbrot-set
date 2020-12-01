@@ -13,6 +13,7 @@
         offset: Point,
         zoom: number,
         color: boolean,
+        numberOfIterations: number,
         numberOfThreads: number;
     let colorString = "true";
     $: color = colorString === "true";
@@ -79,6 +80,10 @@
             Color</label>
         <label><input type="radio" bind:group={colorString} value="false" />
             Black & white</label>
+    </div>
+    <div>
+        <h2>Number of iterations</h2>
+        <input type="number" bind:value={numberOfIterations} />
     </div>
     <div>
         <h2>Number of threads</h2>
