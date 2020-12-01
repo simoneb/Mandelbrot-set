@@ -45,20 +45,20 @@ export function generate(width: u32, height: u32, zoom: f64, offsetX: f64, offse
 
             const iterations = complex.goesToInfinity();
             if (iterations === -1) {
-                imageDataArray[index] = 0;
-                imageDataArray[index + 1] = 0;
-                imageDataArray[index + 2] = 0;
+                unchecked(imageDataArray[index] = 0);
+                unchecked(imageDataArray[index + 1] = 0);
+                unchecked(imageDataArray[index + 2] = 0);
             } else {
                 let rgb: u8[];
                 if (color)
                     rgb = hue2rgb(Math.fround(iterations as f64 / 100 * 300));
                 else
                     rgb = [255, 255, 255];
-                imageDataArray[index] = rgb[0];
-                imageDataArray[index + 1] = rgb[1];
-                imageDataArray[index + 2] = rgb[2];
+                unchecked(imageDataArray[index] = rgb[0]);
+                unchecked(imageDataArray[index + 1] = rgb[1]);
+                unchecked(imageDataArray[index + 2] = rgb[2]);
             }
-            imageDataArray[index + 3] = 255;
+            unchecked(imageDataArray[index + 3] = 255);
             // a pixel in a canvas has 4 bytes for Red, Green, Blue and Alpha
         }
     }
