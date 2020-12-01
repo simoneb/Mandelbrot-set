@@ -12,7 +12,8 @@
         height: number,
         offset: Point,
         zoom: number,
-        color: boolean;
+        color: boolean,
+        numberOfThreads: number;
     let colorString = "true";
     $: color = colorString === "true";
     // svelte won't let me have booleans as attributes
@@ -78,6 +79,10 @@
             Color</label>
         <label><input type="radio" bind:group={colorString} value="false" />
             Black & white</label>
+    </div>
+    <div>
+        <h2>Number of threads</h2>
+        <input type="number" bind:value={numberOfThreads} />
     </div>
     <input type="submit" value="Update" />
 </form>

@@ -11,7 +11,8 @@
 		offset = new Point(0, 0),
 		zoom = 50,
 		zoomFactor: number,
-		color: boolean;
+		color: boolean,
+		numberOfThreads = navigator.hardwareConcurrency || 1;
 	$: zoomFactor = zoom / 100;
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
@@ -100,7 +101,8 @@
 			height,
 			zoomFactor,
 			offset,
-			color
+			color,
+			numberOfThreads
 		);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
@@ -224,6 +226,7 @@
 		bind:offset
 		bind:zoom
 		bind:color
+		bind:numberOfThreads
 		on:update={drawMandelbrot} />
 </div>
 {#if calculating}

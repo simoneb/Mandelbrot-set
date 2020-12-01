@@ -3,6 +3,7 @@ import type { Point } from "./point";
 class Thread {
     private static wasm: ArrayBuffer;
     private worker: Worker;
+    static all: Thread[] = [];
 
     constructor() {
         this.worker = new Worker("build/worker.js");
@@ -30,25 +31,41 @@ class Thread {
     terminate() {
         this.worker.terminate();
     }
+
+    static async changeNumberOfThreads(numberOfThreads: number) {
+        while (Thread.all.length != numberOfThreads) {
+            if (Thread.all.length < numberOfThreads) {
+                const thread = new Thread();
+                await thread.sendWasm();
+                Thread.all.push(thread);
+            } else {
+                Thread.all.pop().terminate();
+            }
+        }
+    }
 }
 
-export async function generate(width: number, height: number, zoom: number, offset: Point, color: boolean) {
-    const numberOfThreads = navigator.hardwareConcurrency || 1;
-    let threads = [];
+export async function generate(
+    width: number,
+    height: number,
+    zoom: number,
+    offset: Point,
+    color: boolean,
+    numberOfThreads: number
+) {
+    await Thread.changeNumberOfThreads(numberOfThreads);
     let promises = [];
-    for (let i = 0; i < numberOfThreads; i++) {
-        const thread = new Thread();
-        threads.push(thread);
-        await thread.sendWasm();
-        promises.push(thread.command("generate", [width, height, zoom, offset.x, offset.y, color, numberOfThreads, i]));
+    for (let i = 0; i < Thread.all.length; i++) {
+        promises.push(Thread.all[i].command("generate", [
+            width, height, zoom, offset.x, offset.y, color, numberOfThreads, i
+        ]));
     }
     const imageDataArrays: Uint8ClampedArray[] = await Promise.all(promises);
     const imageDataArray = new Uint8ClampedArray(width * height * 4);
-    
+
     for (let i = 0; i < imageDataArrays.length; i++) {
         console.log(imageDataArrays[i].length);
         imageDataArray.set(imageDataArrays[i], imageDataArrays[0].length * i);
-        threads[i].terminate();
     }
     return imageDataArray;
 }
