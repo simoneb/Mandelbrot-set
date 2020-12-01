@@ -1,15 +1,15 @@
 (module
- (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
+ (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $i32_=>_none (func (param i32)))
  (type $f64_f64_=>_i32 (func (param f64 f64) (result i32)))
  (type $none_=>_none (func))
  (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
  (type $f64_=>_none (func (param f64)))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
- (type $i32_i32_f64_f64_f64_i32_=>_i32 (func (param i32 i32 f64 f64 f64 i32) (result i32)))
+ (type $i32_i32_f64_f64_f64_i32_i32_i32_i32_=>_i32 (func (param i32 i32 f64 f64 f64 i32 i32 i32 i32) (result i32)))
  (type $i32_f64_=>_f64 (func (param i32 f64) (result f64)))
  (type $f64_=>_f64 (func (param f64) (result f64)))
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
@@ -20,14 +20,11 @@
  (data (i32.const 1164) "\1e\00\00\00\01\00\00\00\00\00\00\00\01\00\00\00\1e\00\00\00~\00l\00i\00b\00/\00r\00t\00/\00t\00l\00s\00f\00.\00t\00s")
  (data (i32.const 1228) "\1c\00\00\00\01\00\00\00\00\00\00\00\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h")
  (data (i32.const 1276) "&\00\00\00\01\00\00\00\00\00\00\00\01\00\00\00&\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s")
- (data (i32.const 1340) "$\00\00\00\01\00\00\00\00\00\00\00\01\00\00\00$\00\00\00I\00n\00d\00e\00x\00 \00o\00u\00t\00 \00o\00f\00 \00r\00a\00n\00g\00e")
- (data (i32.const 1404) "$\00\00\00\01\00\00\00\00\00\00\00\01\00\00\00$\00\00\00~\00l\00i\00b\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s")
- (data (i32.const 1468) "\03\00\00\00\01")
- (data (i32.const 1484) "\03\00\00\00\ff\ff\ff")
- (data (i32.const 1500) "\1a\00\00\00\01\00\00\00\00\00\00\00\01\00\00\00\1a\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s")
- (data (i32.const 1552) "\08\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00a\00\00\00\02\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00b\00\00\00\00\00\00\00\"\t")
+ (data (i32.const 1340) "\03\00\00\00\01")
+ (data (i32.const 1356) "\03\00\00\00\ff\ff\ff")
+ (data (i32.const 1376) "\08\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00a\00\00\00\02\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00b\00\00\00\00\00\00\00\"\t")
  (global $~lib/rt/tlsf/ROOT (mut i32) (i32.const 0))
- (global $~lib/rt/__rtti_base i32 (i32.const 1552))
+ (global $~lib/rt/__rtti_base i32 (i32.const 1376))
  (export "memory" (memory $0))
  (export "__new" (func $~lib/rt/pure/__new))
  (export "__renew" (func $~lib/rt/pure/__renew))
@@ -603,10 +600,10 @@
   if
    unreachable
   end
-  i32.const 1632
+  i32.const 1456
   i32.const 0
   i32.store
-  i32.const 3200
+  i32.const 3024
   i32.const 0
   i32.store
   loop $for-loop|0
@@ -617,7 +614,7 @@
     local.get $1
     i32.const 2
     i32.shl
-    i32.const 1632
+    i32.const 1456
     i32.add
     i32.const 0
     i32.store offset=4
@@ -635,7 +632,7 @@
       i32.add
       i32.const 2
       i32.shl
-      i32.const 1632
+      i32.const 1456
       i32.add
       i32.const 0
       i32.store offset=96
@@ -653,13 +650,13 @@
     br $for-loop|0
    end
   end
-  i32.const 1632
-  i32.const 3204
+  i32.const 1456
+  i32.const 3028
   memory.size
   i32.const 16
   i32.shl
   call $~lib/rt/tlsf/addMemory
-  i32.const 1632
+  i32.const 1456
   global.set $~lib/rt/tlsf/ROOT
  )
  (func $~lib/rt/tlsf/prepareSize (param $0 i32) (result i32)
@@ -1281,7 +1278,7 @@
   i32.and
   call $~lib/memory/memory.copy
   local.get $1
-  i32.const 1620
+  i32.const 1444
   i32.ge_u
   if
    local.get $0
@@ -1323,7 +1320,7 @@
   i32.add
   local.set $2
   local.get $0
-  i32.const 1620
+  i32.const 1444
   i32.lt_u
   if
    global.get $~lib/rt/tlsf/ROOT
@@ -1418,7 +1415,7 @@
   (local $1 i32)
   (local $2 i32)
   local.get $0
-  i32.const 1620
+  i32.const 1444
   i32.gt_u
   if
    local.get $0
@@ -1465,7 +1462,7 @@
  )
  (func $~lib/rt/pure/__release (param $0 i32)
   local.get $0
-  i32.const 1620
+  i32.const 1444
   i32.gt_u
   if
    local.get $0
@@ -1473,6 +1470,26 @@
    i32.sub
    call $~lib/rt/pure/decrement
   end
+ )
+ (func $assembly/index/Range#constructor (param $0 f64) (param $1 f64) (result i32)
+  (local $2 i32)
+  i32.const 16
+  i32.const 4
+  call $~lib/rt/pure/__new
+  call $~lib/rt/pure/__retain
+  local.tee $2
+  f64.const 0
+  f64.store
+  local.get $2
+  f64.const 0
+  f64.store offset=8
+  local.get $2
+  local.get $0
+  f64.store
+  local.get $2
+  local.get $1
+  f64.store offset=8
+  local.get $2
  )
  (func $~lib/memory/memory.fill (param $0 i32) (param $1 i32)
   (local $2 i32)
@@ -1632,26 +1649,6 @@
    end
   end
  )
- (func $assembly/index/Range#constructor (param $0 f64) (param $1 f64) (result i32)
-  (local $2 i32)
-  i32.const 16
-  i32.const 4
-  call $~lib/rt/pure/__new
-  call $~lib/rt/pure/__retain
-  local.tee $2
-  f64.const 0
-  f64.store
-  local.get $2
-  f64.const 0
-  f64.store offset=8
-  local.get $2
-  local.get $0
-  f64.store
-  local.get $2
-  local.get $1
-  f64.store offset=8
-  local.get $2
- )
  (func $assembly/complex/Complex#constructor (param $0 f64) (param $1 f64) (result i32)
   (local $2 i32)
   i32.const 16
@@ -1672,78 +1669,76 @@
   f64.store offset=8
   local.get $2
  )
- (func $assembly/complex/Complex#goesToInfinity (param $0 i32) (result i32)
-  (local $1 i32)
+ (func $assembly/complex/Complex#goesToInfinity (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
-  (local $3 f64)
-  (local $4 i32)
+  (local $3 i32)
+  (local $4 f64)
   (local $5 i32)
-  (local $6 f64)
+  (local $6 i32)
+  (local $7 f64)
   local.get $0
   f64.load
   local.get $0
   f64.load offset=8
   call $assembly/complex/Complex#constructor
-  local.set $1
-  loop $for-loop|1
-   local.get $2
-   i32.const 255
-   i32.and
-   i32.const 100
-   i32.lt_u
+  local.set $2
+  loop $for-loop|0
+   local.get $1
+   local.get $3
+   i32.gt_s
    if
     local.get $0
     call $~lib/rt/pure/__retain
-    local.set $5
-    local.get $1
-    local.get $1
+    local.set $6
+    local.get $2
+    local.get $2
     f64.load
-    local.tee $3
-    local.get $3
+    local.tee $4
+    local.get $4
     f64.mul
-    local.get $1
+    local.get $2
     f64.load offset=8
-    local.tee $6
-    local.get $6
+    local.tee $7
+    local.get $7
     f64.mul
     f64.sub
     f64.store
-    local.get $1
-    local.get $3
-    local.get $3
+    local.get $2
+    local.get $4
+    local.get $4
     f64.add
-    local.get $6
+    local.get $7
     f64.mul
     f64.store offset=8
-    local.get $5
+    local.get $6
     call $~lib/rt/pure/__retain
-    local.set $4
-    local.get $1
-    local.get $1
+    local.set $5
+    local.get $2
+    local.get $2
     f64.load
-    local.get $4
+    local.get $5
     f64.load
     f64.add
     f64.store
-    local.get $1
-    local.get $1
+    local.get $2
+    local.get $2
     f64.load offset=8
-    local.get $4
+    local.get $5
     f64.load offset=8
     f64.add
     f64.store offset=8
-    local.get $4
-    call $~lib/rt/pure/__release
     local.get $5
     call $~lib/rt/pure/__release
-    local.get $1
+    local.get $6
+    call $~lib/rt/pure/__release
+    local.get $2
     f64.load
     f64.const 2
     f64.gt
     if (result i32)
      i32.const 1
     else
-     local.get $1
+     local.get $2
      f64.load
      f64.const -2
      f64.lt
@@ -1751,7 +1746,7 @@
     if (result i32)
      i32.const 1
     else
-     local.get $1
+     local.get $2
      f64.load offset=8
      f64.const 2
      f64.gt
@@ -1759,41 +1754,29 @@
     if (result i32)
      i32.const 1
     else
-     local.get $1
+     local.get $2
      f64.load offset=8
      f64.const -2
      f64.lt
     end
     if
-     local.get $1
-     call $~lib/rt/pure/__release
      local.get $2
+     call $~lib/rt/pure/__release
+     local.get $3
      return
     end
-    local.get $2
+    local.get $3
     i32.const 1
     i32.add
-    local.set $2
-    br $for-loop|1
+    local.set $3
+    br $for-loop|0
    end
   end
-  local.get $1
+  local.get $2
   call $~lib/rt/pure/__release
   i32.const -1
  )
- (func $~lib/typedarray/Uint8ClampedArray#__set (param $0 i32) (param $1 i32) (param $2 i32)
-  local.get $1
-  local.get $0
-  i32.load offset=8
-  i32.ge_u
-  if
-   i32.const 1360
-   i32.const 1424
-   i32.const 291
-   i32.const 45
-   call $~lib/builtins/abort
-   unreachable
-  end
+ (func $~lib/typedarray/Uint8ClampedArray#__uset (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=4
@@ -2017,66 +2000,108 @@
   i32.store offset=12
   local.get $1
  )
- (func $~lib/array/Array<u8>#__get (param $0 i32) (param $1 i32) (result i32)
-  local.get $1
-  local.get $0
-  i32.load offset=12
-  i32.ge_u
-  if
-   i32.const 1360
-   i32.const 1520
-   i32.const 104
-   i32.const 42
-   call $~lib/builtins/abort
-   unreachable
-  end
-  local.get $0
-  i32.load offset=4
-  local.get $1
-  i32.add
-  i32.load8_u
- )
- (func $assembly/index/generate (param $0 i32) (param $1 i32) (param $2 f64) (param $3 f64) (param $4 f64) (param $5 i32) (result i32)
-  (local $6 i32)
-  (local $7 i32)
-  (local $8 i32)
+ (func $assembly/index/generate (param $0 i32) (param $1 i32) (param $2 f64) (param $3 f64) (param $4 f64) (param $5 i32) (param $6 i32) (param $7 i32) (param $8 i32) (result i32)
   (local $9 i32)
   (local $10 i32)
   (local $11 i32)
   (local $12 i32)
   (local $13 i32)
-  (local $14 f64)
+  (local $14 i32)
   (local $15 i32)
   (local $16 i32)
-  local.get $0
+  (local $17 f64)
+  (local $18 i32)
+  (local $19 i32)
+  f64.const -0.5
+  local.get $2
+  f64.div
+  local.tee $17
+  local.get $3
+  f64.add
+  f64.const 0.5
+  local.get $2
+  f64.div
+  local.tee $2
+  local.get $3
+  f64.add
+  call $assembly/index/Range#constructor
+  local.set $14
+  local.get $17
+  local.get $4
+  f64.add
+  local.get $2
+  local.get $4
+  f64.add
+  call $assembly/index/Range#constructor
+  local.set $15
   local.get $1
+  local.get $7
+  i32.const 255
+  i32.and
+  local.tee $9
+  i32.div_u
+  f64.convert_i32_u
+  f64.ceil
+  local.get $8
+  f64.convert_i32_u
+  f64.mul
+  i32.trunc_f64_u
+  local.set $10
+  local.get $0
+  local.get $9
+  local.get $8
+  i32.const 1
+  i32.add
+  i32.const 255
+  i32.and
+  i32.gt_u
+  if (result i32)
+   local.get $1
+   local.get $7
+   i32.const 255
+   i32.and
+   i32.div_u
+   f64.convert_i32_u
+   f64.ceil
+   local.get $8
+   i32.const 1
+   i32.add
+   f64.convert_i32_u
+   f64.mul
+   i32.trunc_f64_u
+  else
+   local.get $1
+  end
+  local.tee $11
+  local.get $10
+  i32.sub
   i32.mul
   i32.const 2
   i32.shl
-  local.set $9
+  local.set $12
   i32.const 12
   i32.const 3
   call $~lib/rt/pure/__new
   call $~lib/rt/pure/__retain
-  local.tee $6
+  local.tee $7
   i32.eqz
   if
    i32.const 12
    i32.const 2
    call $~lib/rt/pure/__new
    call $~lib/rt/pure/__retain
-   local.set $6
+   local.set $7
   end
-  local.get $6
+  local.get $7
   i32.const 0
   i32.store
-  local.get $6
+  local.get $7
   i32.const 0
   i32.store offset=4
-  local.get $6
+  local.get $7
   i32.const 0
   i32.store offset=8
-  local.get $9
+  local.get $12
   i32.const 1073741820
   i32.gt_u
   if
@@ -2087,70 +2112,52 @@
    call $~lib/builtins/abort
    unreachable
   end
-  local.get $9
+  local.get $12
   i32.const 0
   call $~lib/rt/pure/__new
-  local.tee $8
-  local.get $9
+  local.tee $9
+  local.get $12
   call $~lib/memory/memory.fill
-  local.get $8
-  local.tee $7
-  local.get $6
+  local.get $9
+  local.tee $8
+  local.get $7
   i32.load
-  local.tee $10
+  local.tee $13
   i32.ne
   if
-   local.get $7
+   local.get $8
    call $~lib/rt/pure/__retain
-   local.set $7
-   local.get $10
+   local.set $8
+   local.get $13
    call $~lib/rt/pure/__release
   end
-  local.get $6
   local.get $7
-  i32.store
-  local.get $6
   local.get $8
-  i32.store offset=4
-  local.get $6
+  i32.store
+  local.get $7
   local.get $9
+  i32.store offset=4
+  local.get $7
+  local.get $12
   i32.store offset=8
-  f64.const -0.5
-  local.get $2
-  f64.div
-  local.tee $14
-  local.get $3
-  f64.add
-  f64.const 0.5
-  local.get $2
-  f64.div
-  local.tee $2
-  local.get $3
-  f64.add
-  call $assembly/index/Range#constructor
-  local.set $10
-  local.get $14
-  local.get $4
-  f64.add
-  local.get $2
-  local.get $4
-  f64.add
-  call $assembly/index/Range#constructor
-  local.set $11
+  local.get $7
+  local.set $9
+  local.get $10
+  local.set $8
   loop $for-loop|0
-   local.get $1
-   local.get $12
-   i32.gt_u
+   local.get $8
+   local.get $11
+   i32.lt_u
    if
-    local.get $11
+    local.get $15
     f64.load
     local.get $1
-    local.get $12
+    local.get $8
     i32.sub
     f64.convert_i32_u
-    local.get $11
+    local.get $15
     f64.load offset=8
-    local.get $11
+    local.get $15
     f64.load
     f64.sub
     f64.mul
@@ -2160,27 +2167,29 @@
     f64.add
     local.set $3
     i32.const 0
-    local.set $9
+    local.set $13
     loop $for-loop|1
      local.get $0
-     local.get $9
+     local.get $13
      i32.gt_u
      if
-      local.get $9
+      local.get $13
       local.get $0
-      local.get $12
+      local.get $8
+      local.get $10
+      i32.sub
       i32.mul
       i32.add
       i32.const 2
       i32.shl
-      local.set $7
-      local.get $10
+      local.set $12
+      local.get $14
       f64.load
-      local.get $9
+      local.get $13
       f64.convert_i32_u
-      local.get $10
+      local.get $14
       f64.load offset=8
-      local.get $10
+      local.get $14
       f64.load
       f64.sub
       f64.mul
@@ -2190,41 +2199,43 @@
       f64.add
       local.get $3
       call $assembly/complex/Complex#constructor
-      local.tee $15
+      local.tee $18
+      local.get $6
       call $assembly/complex/Complex#goesToInfinity
-      local.tee $16
+      local.tee $19
       i32.const -1
       i32.eq
       if
-       local.get $6
-       local.get $7
+       local.get $9
+       local.get $12
        i32.const 0
-       call $~lib/typedarray/Uint8ClampedArray#__set
-       local.get $6
-       local.get $7
+       call $~lib/typedarray/Uint8ClampedArray#__uset
+       local.get $9
+       local.get $12
        i32.const 1
        i32.add
        i32.const 0
-       call $~lib/typedarray/Uint8ClampedArray#__set
-       local.get $6
-       local.get $7
+       call $~lib/typedarray/Uint8ClampedArray#__uset
+       local.get $9
+       local.get $12
        i32.const 2
        i32.add
        i32.const 0
-       call $~lib/typedarray/Uint8ClampedArray#__set
+       call $~lib/typedarray/Uint8ClampedArray#__uset
       else
        local.get $5
        if
         i32.const 0
         call $~lib/rt/__newArray
         call $~lib/rt/pure/__retain
-        local.tee $8
+        local.tee $7
         i32.load offset=4
-        local.tee $13
+        local.tee $16
         i32.const 5
-        local.get $16
+        local.get $19
         f64.convert_i32_s
-        f64.const 100
+        local.get $6
+        f64.convert_i32_s
         f64.div
         f64.const 300
         f64.mul
@@ -2236,7 +2247,7 @@
         f64.mul
         i32.trunc_f64_u
         i32.store8
-        local.get $13
+        local.get $16
         i32.const 3
         local.get $2
         call $assembly/hue2rgb/f
@@ -2244,7 +2255,7 @@
         f64.mul
         i32.trunc_f64_u
         i32.store8 offset=1
-        local.get $13
+        local.get $16
         i32.const 1
         local.get $2
         call $assembly/hue2rgb/f
@@ -2253,63 +2264,63 @@
         i32.trunc_f64_u
         i32.store8 offset=2
        else
-        i32.const 1488
+        i32.const 1360
         call $~lib/rt/__newArray
         call $~lib/rt/pure/__retain
-        local.set $8
+        local.set $7
        end
-       local.get $6
+       local.get $9
+       local.get $12
        local.get $7
-       local.get $8
-       i32.const 0
-       call $~lib/array/Array<u8>#__get
-       call $~lib/typedarray/Uint8ClampedArray#__set
-       local.get $6
-       local.get $7
+       i32.load offset=4
+       i32.load8_u
+       call $~lib/typedarray/Uint8ClampedArray#__uset
+       local.get $9
+       local.get $12
        i32.const 1
        i32.add
-       local.get $8
-       i32.const 1
-       call $~lib/array/Array<u8>#__get
-       call $~lib/typedarray/Uint8ClampedArray#__set
-       local.get $6
        local.get $7
+       i32.load offset=4
+       i32.load8_u offset=1
+       call $~lib/typedarray/Uint8ClampedArray#__uset
+       local.get $9
+       local.get $12
        i32.const 2
        i32.add
-       local.get $8
-       i32.const 2
-       call $~lib/array/Array<u8>#__get
-       call $~lib/typedarray/Uint8ClampedArray#__set
-       local.get $8
+       local.get $7
+       i32.load offset=4
+       i32.load8_u offset=2
+       call $~lib/typedarray/Uint8ClampedArray#__uset
+       local.get $7
        call $~lib/rt/pure/__release
       end
-      local.get $6
-      local.get $7
+      local.get $9
+      local.get $12
       i32.const 3
       i32.add
       i32.const 255
-      call $~lib/typedarray/Uint8ClampedArray#__set
-      local.get $15
+      call $~lib/typedarray/Uint8ClampedArray#__uset
+      local.get $18
       call $~lib/rt/pure/__release
-      local.get $9
+      local.get $13
       i32.const 1
       i32.add
-      local.set $9
+      local.set $13
       br $for-loop|1
      end
     end
-    local.get $12
+    local.get $8
     i32.const 1
     i32.add
-    local.set $12
+    local.set $8
     br $for-loop|0
    end
   end
-  local.get $10
+  local.get $14
   call $~lib/rt/pure/__release
-  local.get $11
+  local.get $15
   call $~lib/rt/pure/__release
-  local.get $6
+  local.get $9
  )
  (func $~lib/rt/pure/decrement (param $0 i32)
   (local $1 i32)
@@ -2399,7 +2410,7 @@
  )
  (func $~lib/rt/pure/__visit (param $0 i32)
   local.get $0
-  i32.const 1620
+  i32.const 1444
   i32.lt_u
   if
    return
