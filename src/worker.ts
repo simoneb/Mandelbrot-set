@@ -23,7 +23,6 @@ myself.onmessage = async (event) => {
                 }
             });
             moduleExports = module.exports;
-            console.log(moduleExports);
             myself.postMessage(null);
         break;
 

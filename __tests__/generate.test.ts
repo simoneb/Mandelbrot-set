@@ -1,6 +1,5 @@
 import { generate, Thread } from "../src/generate";
 import { Point } from "../src/point";
-//import {describe, test} from "@types/jest";
 
 describe("test", () => {
     test("a", async () => {

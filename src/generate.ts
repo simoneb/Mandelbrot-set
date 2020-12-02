@@ -1,5 +1,3 @@
-//import Worker from "web-worker";
-//import {loadWasm} from "./loadWasm";
 import crossPlatform from "./cross-platform";
 import type { Point } from "./point";
 
@@ -32,11 +30,6 @@ export class Thread {
 
     private static async getWasm() {
         if (typeof Thread.wasm === "undefined") {
-            //if(typeof window !== "undefined"){
-            //const response = await fetch("build/generate.wasm");
-            /*}else{
-                import fs = require("fs");
-            }*/
             Thread.wasm = await crossPlatform({
                 browser: {
                     run: async () => {
@@ -50,8 +43,6 @@ export class Thread {
                     }
                 }
             });
-            //Thread.wasm = await response.arrayBuffer();
-            //Thread.wasm = await loadWasm();
         }
         return Thread.wasm;
     }
@@ -93,7 +84,6 @@ export async function generate(
     const imageDataArray = new Uint8ClampedArray(width * height * 4);
 
     for (let i = 0; i < imageDataArrays.length; i++) {
-        console.log(imageDataArrays[i].length);
         imageDataArray.set(imageDataArrays[i], imageDataArrays[0].length * i);
     }
     return imageDataArray;
