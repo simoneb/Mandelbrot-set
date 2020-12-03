@@ -14,6 +14,7 @@
         "test": "npm run build -- --environment TEST:true && npx jest"
     },
     "devDependencies": {
+        "@as-pect/cli": "^5.0.0",
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-node-resolve": "^11.0.0",
         "@rollup/plugin-typescript": "^8.0.0",
