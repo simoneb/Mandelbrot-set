@@ -20,10 +20,35 @@ describe("test the output of the generate function", () => {
     test("at point (0.4, -0.3) with color", async () => {
         expect(await generate(1, 1, 20, new Point(0.4, -0.3), true, 50, 1))
             .toStrictEqual(new Uint8ClampedArray([0, 229, 255, 255]));
-    })
+    });
 
-    afterEach(() => {
-        Thread.changeNumberOfThreads(0);
+    afterEach(async () => {
+        await Thread.changeNumberOfThreads(0);
         // terminate all threads
-    })
+    });
+});
+
+describe("test the Thread class", () => {
+    test("check magic number of returned ArrayBuffer of getWasm", async () => {
+        expect(new Uint8Array((await Thread.getWasm()).slice(0, 4)))
+            .toStrictEqual(new Uint8Array([0, 97, 115, 109]));
+        // Wasm magic number is \0asm
+    });
+
+    test("test unknown actions", async () => {
+        const thread = new Thread();
+        expect(await thread.command("(unknown action)", 0)).toBe(null);
+        thread.terminate();
+    });
+
+    test("test the changeNumberOfThreads method", async () => {
+        await Thread.changeNumberOfThreads(5);
+        expect(Thread.all.length).toBe(5);
+
+        await Thread.changeNumberOfThreads(3);
+        expect(Thread.all.length).toBe(3);
+
+        await Thread.changeNumberOfThreads(0);
+        expect(Thread.all.length).toBe(0);
+    });
 });
