@@ -11,7 +11,7 @@
         "asbuild:untouched": "asc assembly/index.ts --target debug",
         "asbuild:optimized": "asc assembly/index.ts --target release",
         "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
-        "test": "npm run build -- --environment TEST:true && npx jest"
+        "test": "npx asp && npm run build -- --environment TEST:true && npx jest"
     },
     "devDependencies": {
         "@as-pect/cli": "^5.0.0",
