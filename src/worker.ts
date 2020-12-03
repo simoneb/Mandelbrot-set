@@ -36,7 +36,7 @@ myself.onmessage = async (event) => {
         break;
 
         default:
-            throw new Error("Unknown action: " + action);
+            console.error("Unknown action: " + action);
             myself.postMessage(null);
         break;
     }

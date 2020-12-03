@@ -28,7 +28,7 @@ export class Thread {
         });
     }
 
-    private static async getWasm() {
+    static async getWasm() {
         if (typeof Thread.wasm === "undefined") {
             Thread.wasm = await crossPlatform({
                 browser: {
