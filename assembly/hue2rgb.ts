@@ -1,4 +1,4 @@
-function min3(a: f64, b: f64, c: f64): f64 {
+export function min3(a: f64, b: f64, c: f64): f64 {
     let minab = Math.min(a, b);
     return Math.min(minab, c);
 }
