@@ -10,6 +10,7 @@ import asc from 'assemblyscript/cli/asc';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import css from 'rollup-plugin-css-only';
 
+const test = process.env.TEST === "true";
 const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
@@ -104,7 +105,7 @@ export default [{
                 sourceMap: true,
                 inlineSources: true
             }),
-            production && terser(),
+            production && !test && terser(),
             {
                 name: 'Compile AS',
                 load() {
@@ -117,7 +118,7 @@ export default [{
                         asc.main([
                             'assembly/index.ts',
                             '--config', 'asconfig.json',
-                            '--target', production ? 'release' : 'debug',
+                            '--target', production && !test ? 'release' : 'debug',
                             '--sourceMap', 'build/generate.wasm.map'
                         ], {
                             stdout: process.stdout,
@@ -131,4 +132,5 @@ export default [{
             })
         ]
     }
-]
+].slice(test);
+// only build worker if test is true, else build both

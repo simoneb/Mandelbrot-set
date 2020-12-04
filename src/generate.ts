@@ -1,12 +1,20 @@
+import crossPlatform from "./cross-platform";
 import type { Point } from "./point";
 
-class Thread {
+export class Thread {
     private static wasm: ArrayBuffer;
     private worker: Worker;
     static all: Thread[] = [];
 
     constructor() {
-        this.worker = new Worker("build/worker.js");
+        this.worker = crossPlatform({
+            browser: {
+                run: () => new Worker("build/worker.js")
+            }, node: {
+                require: { Worker: "web-worker" },
+                run: required => new required.Worker("public/build/worker.js")
+            }
+        });
     }
 
     async sendWasm() {
@@ -20,10 +28,21 @@ class Thread {
         });
     }
 
-    private static async getWasm() {
+    static async getWasm() {
         if (typeof Thread.wasm === "undefined") {
-            const response = await fetch("build/generate.wasm");
-            Thread.wasm = await response.arrayBuffer();
+            Thread.wasm = await crossPlatform({
+                browser: {
+                    run: async () => {
+                        const response = await fetch("build/generate.wasm");
+                        return await response.arrayBuffer();
+                    }
+                }, node: {
+                    require: { fs: "fs" },
+                    run: async required => {
+                        return required.fs.readFileSync("public/build/generate.wasm");
+                    }
+                }
+            });
         }
         return Thread.wasm;
     }
@@ -65,7 +84,6 @@ export async function generate(
     const imageDataArray = new Uint8ClampedArray(width * height * 4);
 
     for (let i = 0; i < imageDataArrays.length; i++) {
-        console.log(imageDataArrays[i].length);
         imageDataArray.set(imageDataArrays[i], imageDataArrays[0].length * i);
     }
     return imageDataArray;

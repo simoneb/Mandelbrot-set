@@ -23,7 +23,6 @@ myself.onmessage = async (event) => {
                 }
             });
             moduleExports = module.exports;
-            console.log(moduleExports);
             myself.postMessage(null);
         break;
 
@@ -37,7 +36,7 @@ myself.onmessage = async (event) => {
         break;
 
         default:
-            throw new Error("Unknown action: " + action);
+            console.error("Unknown action: " + action);
             myself.postMessage(null);
         break;
     }

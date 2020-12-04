@@ -1,6 +1,10 @@
 # Svelte output
 public/build
 
+# as-pect output
+assembly/__tests__/**/*.wat
+assembly/__tests__/**/*.map
+
 # Logs
 logs
 *.log
