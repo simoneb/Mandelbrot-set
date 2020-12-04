@@ -6,6 +6,7 @@
 * Zoom slider
 * Dark mode by default
 * Colors
+* Multithreading
 
 ### What do the colors mean?
 The colors represent how many iterations a pixel has undertaken before
