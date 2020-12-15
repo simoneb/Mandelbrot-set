@@ -37,6 +37,7 @@
     },
     "dependencies": {
         "@assemblyscript/loader": "^0.17.0",
+        "gpu.js": "^2.10.6",
         "sirv-cli": "^1.0.0",
         "svelte-material-icons": "^1.0.3",
         "svelte-tabs": "^1.1.0",
