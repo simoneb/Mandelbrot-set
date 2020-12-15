@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Tabs, Tab, TabList, TabPanel } from "svelte-tabs";
     import type { Point } from "./point";
     import { createEventDispatcher } from "svelte";
 
@@ -21,6 +22,16 @@
 </script>
 
 <style>
+    :global(.svelte-tabs li.svelte-tabs__tab) {
+        color: #ccc;
+    }
+    :global(body.light .svelte-tabs li.svelte-tabs__tab) {
+        color: #333;
+    }
+    :global(.svelte-tabs) {
+        border-bottom: 1px solid #ccc;
+    }
+
     h2 {
         font-size: 1.3em;
         margin-bottom: 0.3em;
@@ -59,35 +70,57 @@
 </style>
 
 <form on:submit={update}>
-    <div>
-        <h2>Center position</h2>
-        (<input type="number" step="any" bind:value={offset.x} />,
-        <input type="number" step="any" bind:value={offset.y} />)
-    </div>
-    <div>
-        <h2>Zoom</h2>
-        <input type="number" step="0.1" bind:value={zoom} />%
-    </div>
-    <div>
-        <h2>Canvas size</h2>
-        <input type="number" bind:value={width} />
-        &times;
-        <input type="number" bind:value={height} />
-    </div>
-    <div class="color-container">
-        <h2>Color</h2>
-        <label><input type="radio" bind:group={colorString} value="true" />
-            Color</label>
-        <label><input type="radio" bind:group={colorString} value="false" />
-            Black & white</label>
-    </div>
-    <div>
-        <h2>Number of iterations</h2>
-        <input type="number" bind:value={numberOfIterations} />
-    </div>
-    <div>
-        <h2>Number of threads</h2>
-        <input type="number" bind:value={numberOfThreads} />
-    </div>
+    <Tabs>
+        <TabList>
+            <Tab>Camera</Tab>
+            <Tab>Canvas</Tab>
+            <Tab>Calculation</Tab>
+        </TabList>
+
+        <TabPanel>
+            <div>
+                <h2>Center position</h2>
+                (<input type="number" step="any" bind:value={offset.x} />,
+                <input type="number" step="any" bind:value={offset.y} />)
+            </div>
+            <div>
+                <h2>Zoom</h2>
+                <input type="number" step="0.1" bind:value={zoom} />%
+            </div>
+        </TabPanel>
+
+        <TabPanel>
+            <div>
+                <h2>Canvas size</h2>
+                <input type="number" bind:value={width} />
+                &times;
+                <input type="number" bind:value={height} />
+            </div>
+            <div class="color-container">
+                <h2>Color</h2>
+                <label><input
+                        type="radio"
+                        bind:group={colorString}
+                        value="true" />
+                    Color</label>
+                <label><input
+                        type="radio"
+                        bind:group={colorString}
+                        value="false" />
+                    Black & white</label>
+            </div>
+        </TabPanel>
+
+        <TabPanel>
+            <div>
+                <h2>Number of iterations</h2>
+                <input type="number" bind:value={numberOfIterations} />
+            </div>
+            <div>
+                <h2>Number of threads</h2>
+                <input type="number" bind:value={numberOfThreads} />
+            </div>
+        </TabPanel>
+    </Tabs>
     <input type="submit" value="Update" />
 </form>
