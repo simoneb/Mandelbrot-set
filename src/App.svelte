@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { generate } from "./generate";
+	//import { generate } from "./generate";
+	import { gpuGenerate } from "./gpu-generate";
 	import { Point } from "./point";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
 	import Options from "./Options.svelte";
@@ -97,7 +98,7 @@
 
 	async function drawMandelbrot() {
 		calculating = true;
-		const imageDataArray = await generate(
+		/*const imageDataArray = await generate(
 			width,
 			height,
 			zoomFactor,
@@ -105,7 +106,8 @@
 			color,
 			numberOfIterations,
 			numberOfThreads
-		);
+		);*/
+		const imageDataArray = gpuGenerate(width, height, zoomFactor, offset, color, numberOfIterations);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
 		calculating = false;
