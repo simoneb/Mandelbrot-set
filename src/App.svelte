@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	//import { generate } from "./generate";
+	import { generate } from "./generate";
 	import { gpuGenerate } from "./gpu-generate";
 	import { Point } from "./point";
 	import Brightness6 from "svelte-material-icons/Brightness6.svelte";
@@ -14,7 +14,8 @@
 		zoomFactor: number,
 		color: boolean,
 		numberOfIterations = 100,
-		numberOfThreads = navigator.hardwareConcurrency || 1;
+		numberOfThreads = navigator.hardwareConcurrency || 1,
+		method = "as";
 	$: zoomFactor = zoom / 100;
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
@@ -98,16 +99,26 @@
 
 	async function drawMandelbrot() {
 		calculating = true;
-		/*const imageDataArray = await generate(
-			width,
-			height,
-			zoomFactor,
-			offset,
-			color,
-			numberOfIterations,
-			numberOfThreads
-		);*/
-		const imageDataArray = gpuGenerate(width, height, zoomFactor, offset, color, numberOfIterations);
+		let imageDataArray: Uint8ClampedArray;
+		if (method === "as")
+			imageDataArray = await generate(
+				width,
+				height,
+				zoomFactor,
+				offset,
+				color,
+				numberOfIterations,
+				numberOfThreads
+			);
+		else
+			imageDataArray = gpuGenerate(
+				width,
+				height,
+				zoomFactor,
+				offset,
+				color,
+				numberOfIterations
+			);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);
 		calculating = false;
@@ -232,6 +243,7 @@
 		bind:color
 		bind:numberOfThreads
 		bind:numberOfIterations
+		bind:method
 		on:update={drawMandelbrot} />
 </div>
 {#if calculating}

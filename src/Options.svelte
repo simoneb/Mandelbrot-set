@@ -15,7 +15,8 @@
         zoom: number,
         color: boolean,
         numberOfIterations: number,
-        numberOfThreads: number;
+        numberOfThreads: number,
+        method: string;
     let colorString = "true";
     $: color = colorString === "true";
     // svelte won't let me have booleans as attributes
@@ -48,7 +49,7 @@
     input[type="submit"] {
         margin-top: 1em;
     }
-    .color-container label {
+    .radio-container label {
         text-align: left;
     }
 
@@ -96,7 +97,7 @@
                 &times;
                 <input type="number" bind:value={height} />
             </div>
-            <div class="color-container">
+            <div class="radio-container">
                 <h2>Color</h2>
                 <label><input
                         type="radio"
@@ -119,6 +120,18 @@
             <div>
                 <h2>Number of threads</h2>
                 <input type="number" bind:value={numberOfThreads} />
+            </div>
+            <div>
+                <h2>Calculation method</h2>
+                <div class="radio-container">
+                    <label><input type="radio" bind:group={method} value="as" />
+                        AssemblyScript</label>
+                    <label><input
+                            type="radio"
+                            bind:group={method}
+                            value="gpu" />
+                        GPU.js</label>
+                </div>
             </div>
         </TabPanel>
     </Tabs>
