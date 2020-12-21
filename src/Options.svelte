@@ -119,7 +119,10 @@
             </div>
             <div>
                 <h2>Number of threads</h2>
-                <input type="number" bind:value={numberOfThreads} />
+                <input
+                    type="number"
+                    bind:value={numberOfThreads}
+                    disabled={method === 'gpu'} />
             </div>
             <div>
                 <h2>Calculation method</h2>
