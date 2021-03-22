@@ -9,6 +9,7 @@ module.exports = {
         ],
         "^.+\\.ts$": "ts-jest"
     },
+    transformIgnorePatterns: ["node_modules/(?!svelte-material-icons/)"],
     moduleFileExtensions: [
         "js",
         "ts",
