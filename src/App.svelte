@@ -19,7 +19,8 @@
 	let ctx: CanvasRenderingContext2D;
 	let calculating = false;
 
-	export let version: string;
+	export let version: string,
+		test: boolean;
 
 	let sliderValue = 0;
 	let oldZoom: number;
@@ -104,7 +105,8 @@
 			offset,
 			color,
 			numberOfIterations,
-			numberOfThreads
+			numberOfThreads,
+			test
 		);
 		const imageData = new ImageData(imageDataArray, width);
 		ctx.putImageData(imageData, 0, 0);

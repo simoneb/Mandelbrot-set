@@ -14,5 +14,6 @@ module.exports = {
         "js",
         "ts",
         "svelte"
-    ]
+    ],
+    setupFiles: ["jest-canvas-mock"]
 };
