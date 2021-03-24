@@ -1,6 +1,5 @@
 import crossPlatform from "./cross-platform";
 import type { Point } from "./point";
-import Worker from "web-worker";
 
 export class Thread {
     private static wasm: ArrayBuffer;

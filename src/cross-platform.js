@@ -1,6 +1,5 @@
 function crossPlatform(obj) {
-    if (typeof window !== "undefined" && typeof window.Worker !== "undefined") {
-        // window.Worker is not available in jsdom
+    if (typeof window !== "undefined" && typeof global === "undefined") {
         return run(obj.browser);
     } else {
         return run(obj.node);

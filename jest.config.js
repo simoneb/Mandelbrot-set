@@ -15,5 +15,5 @@ module.exports = {
         "ts",
         "svelte"
     ],
-    setupFiles: ["jest-canvas-mock"]
+    setupFiles: ["jest-canvas-mock", "./setup-jest"]
 };
