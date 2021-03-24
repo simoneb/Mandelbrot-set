@@ -9,6 +9,7 @@ import fs from 'fs';
 import asc from 'assemblyscript/cli/asc';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import css from 'rollup-plugin-css-only';
+//import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 const test = process.env.TEST === "true";
 const production = !process.env.ROLLUP_WATCH;
@@ -82,7 +83,9 @@ export default [{
             // instead of npm run dev), minify
             production && terser(),
 
-            sourcemaps()
+            sourcemaps(),
+
+            //nodePolyfills()
         ],
         watch: {
             clearScreen: false

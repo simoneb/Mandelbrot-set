@@ -11,8 +11,7 @@ export class Thread {
             browser: {
                 run: () => new Worker("build/worker.js")
             }, node: {
-                require: { Worker: "web-worker" },
-                run: required => new required.Worker("public/build/worker.js")
+                run: () => new Worker("public/build/worker.js")
             }
         });
     }
@@ -71,7 +70,8 @@ export async function generate(
     offset: Point,
     color: boolean,
     numberOfIterations: number,
-    numberOfThreads: number
+    numberOfThreads: number,
+    clearThreads: boolean
 ) {
     await Thread.changeNumberOfThreads(numberOfThreads);
     let promises = [];
@@ -86,5 +86,8 @@ export async function generate(
     for (let i = 0; i < imageDataArrays.length; i++) {
         imageDataArray.set(imageDataArrays[i], imageDataArrays[0].length * i);
     }
+    if (clearThreads)
+        await Thread.changeNumberOfThreads(0);
+
     return imageDataArray;
 }
