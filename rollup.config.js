@@ -122,7 +122,9 @@ export default [{
                             'assembly/index.ts',
                             '--config', 'asconfig.json',
                             '--target', production && !test ? 'release' : 'debug',
-                            '--sourceMap', 'build/generate.wasm.map'
+                            '--sourceMap', 'build/generate.wasm.map',
+                            '--runtime', 'minimal',
+                            '--exportRuntime'
                         ], {
                             stdout: process.stdout,
                             stderr: process.stderr
