@@ -1,5 +1,5 @@
 function crossPlatform(obj) {
-    if (typeof window !== "undefined" && typeof global === "undefined") {
+    if (global.testing !== true) {
         return run(obj.browser);
     } else {
         return run(obj.node);
