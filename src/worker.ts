@@ -31,7 +31,7 @@ myself.onmessage = async (event) => {
             const pointer: number = moduleExports.generate(...data);
             const imageDataArrayView: Uint8ClampedArray = moduleExports.__getUint8ClampedArrayView(pointer);
             const imageDataArray = new Uint8ClampedArray(imageDataArrayView);
-            moduleExports.__release(pointer);
+            moduleExports.__collect();
             myself.postMessage(imageDataArray);
         break;
 
