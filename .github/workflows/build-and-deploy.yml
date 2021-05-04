@@ -13,7 +13,7 @@ jobs:
       
       - name: Set the version number in main.ts
         run: |
-          export SHORT_HASH=echo $GITHUB_SHA | cut -c-7
+          export SHORT_HASH=$(echo $GITHUB_SHA | cut -c-7)
           sed -i "/version:/s/\"\"/\"$SHORT_HASH\"/" src/main.ts
         # sed looks for version: and then substitutes "" for the short commit hash
       
