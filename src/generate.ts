@@ -29,19 +29,8 @@ export class Thread {
 
     static async getWasm() {
         if (typeof Thread.wasm === "undefined") {
-            Thread.wasm = await crossPlatform({
-                browser: {
-                    run: async () => {
-                        const response = await fetch("build/generate.wasm");
-                        return await response.arrayBuffer();
-                    }
-                }, node: {
-                    require: { fs: "fs" },
-                    run: async required => {
-                        return required.fs.readFileSync("public/build/generate.wasm");
-                    }
-                }
-            });
+            const response = await fetch("build/generate.wasm");
+            Thread.wasm = await response.arrayBuffer();
         }
         return Thread.wasm;
     }
