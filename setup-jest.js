@@ -15,4 +15,3 @@ global.Worker = function (path) {
     this.worker.onmessage = event => this.onmessage(event);
     this.terminate = () => this.worker.terminate();
 };
-global.testing = true;

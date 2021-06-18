@@ -1,4 +1,3 @@
-import crossPlatform from "./cross-platform";
 import type { Point } from "./point";
 
 export class Thread {
