@@ -1,4 +1,5 @@
 const fs = require("fs");
+const WebWorker = require("web-worker");
 
 global.fetch = jest.fn(path =>
     Promise.resolve({
@@ -8,5 +9,10 @@ global.fetch = jest.fn(path =>
     })
 );
 
-global.Worker = require("web-worker");
+global.Worker = function (path) {
+    this.worker = new WebWorker("public/" + path);
+    this.postMessage = data => this.worker.postMessage(data);
+    this.worker.onmessage = event => this.onmessage(event);
+    this.terminate = () => this.worker.terminate();
+};
 global.testing = true;

@@ -7,13 +7,7 @@ export class Thread {
     static all: Thread[] = [];
 
     constructor() {
-        this.worker = crossPlatform({
-            browser: {
-                run: () => new Worker("build/worker.js")
-            }, node: {
-                run: () => new Worker("public/build/worker.js")
-            }
-        });
+        this.worker = new Worker("build/worker.js");
     }
 
     async sendWasm() {
