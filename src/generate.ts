@@ -1,4 +1,3 @@
-import crossPlatform from "./cross-platform";
 import type { Point } from "./point";
 
 export class Thread {
@@ -7,13 +6,7 @@ export class Thread {
     static all: Thread[] = [];
 
     constructor() {
-        this.worker = crossPlatform({
-            browser: {
-                run: () => new Worker("build/worker.js")
-            }, node: {
-                run: () => new Worker("public/build/worker.js")
-            }
-        });
+        this.worker = new Worker("build/worker.js");
     }
 
     async sendWasm() {
@@ -29,19 +22,8 @@ export class Thread {
 
     static async getWasm() {
         if (typeof Thread.wasm === "undefined") {
-            Thread.wasm = await crossPlatform({
-                browser: {
-                    run: async () => {
-                        const response = await fetch("build/generate.wasm");
-                        return await response.arrayBuffer();
-                    }
-                }, node: {
-                    require: { fs: "fs" },
-                    run: async required => {
-                        return required.fs.readFileSync("public/build/generate.wasm");
-                    }
-                }
-            });
+            const response = await fetch("build/generate.wasm");
+            Thread.wasm = await response.arrayBuffer();
         }
         return Thread.wasm;
     }
